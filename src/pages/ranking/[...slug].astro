@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('ranking');
+  return articles.map((entry) => ({
+    params: { slug: entry.id.replace(/\.mdx?$/, '') },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+<BaseLayout
+  title={entry.data.title}
+  description={entry.data.description}
+  breadcrumbs={[
+    { label: 'ランキング', href: '/#articles' },
+    { label: entry.data.title },
+  ]}
+>
+  <article class="article-wrapper">
+    <div class="article-meta">
+      <span class="article-category">ランキング</span>
+      <time class="article-date" datetime={entry.data.publishedAt}>
+        {entry.data.publishedAt} 更新
+      </time>
+    </div>
+    <h1>{entry.data.title}</h1>
+    <Content />
+  </article>
+</BaseLayout>

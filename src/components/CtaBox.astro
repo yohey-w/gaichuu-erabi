@@ -1,0 +1,16 @@
+---
+interface Props {
+  serviceName: string;
+  description: string;
+  link: string;
+  buttonText?: string;
+  badge?: string;
+}
+const { serviceName, description, link, buttonText = '無料で詳細を見る', badge } = Astro.props;
+---
+<div class="cta-box">
+  {badge && <span class="cta-badge">{badge}</span>}
+  <h3>{serviceName}</h3>
+  <p>{description}</p>
+  <a href={link} class="cta-button" rel="nofollow sponsored" target="_blank">{buttonText}</a>
+</div>

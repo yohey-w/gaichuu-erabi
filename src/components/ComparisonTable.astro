@@ -1,0 +1,49 @@
+---
+interface Service {
+  name: string;
+  type: string;
+  monthlyFee: string;
+  entryFee: string;
+  members: string;
+  link: string;
+  recommended?: boolean;
+}
+interface Props {
+  services: Service[];
+}
+const { services } = Astro.props;
+---
+<div class="table-responsive">
+  <table class="comparison-table">
+    <thead>
+      <tr>
+        <th>サービス名</th>
+        <th>タイプ</th>
+        <th>月額費用</th>
+        <th>入会金</th>
+        <th>会員数</th>
+        <th>詳細</th>
+      </tr>
+    </thead>
+    <tbody>
+      {services.map((s) => (
+        <tr class={s.recommended ? 'recommended' : ''}>
+          <td>
+            <strong>{s.name}</strong>
+            {s.recommended && <span class="rec-badge">おすすめ</span>}
+          </td>
+          <td>{s.type}</td>
+          <td>{s.monthlyFee}</td>
+          <td>{s.entryFee}</td>
+          <td>{s.members}</td>
+          <td>
+            <a href={s.link} rel="nofollow sponsored" target="_blank"
+              style="display:inline-block; background:var(--color-primary); color:#fff; padding:0.3rem 0.8rem; border-radius:100px; font-size:0.8rem; font-weight:600; text-decoration:none;">
+              公式サイト
+            </a>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>

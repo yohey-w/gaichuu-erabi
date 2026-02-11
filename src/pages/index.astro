@@ -1,0 +1,176 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const areaArticles = await getCollection('area');
+const vsArticles = await getCollection('vs');
+const rankingArticles = await getCollection('ranking');
+const allArticles = [...areaArticles, ...vsArticles, ...rankingArticles]
+  .sort((a, b) => (b.data.publishedAt > a.data.publishedAt ? 1 : -1))
+  .slice(0, 20);
+
+// Build area data from articles with slug
+const areaList = areaArticles
+  .filter(a => a.data.area)
+  .map(a => ({
+    name: a.data.area!,
+    href: `/area/${a.id.replace(/\.mdx?$/, '')}/`,
+  }))
+  .sort((a, b) => a.name.localeCompare(b.name, 'ja'));
+
+// Category label helper
+function categoryLabel(col: string) {
+  const labels: Record<string, string> = {
+    area: '地域',
+    vs: '比較',
+    ranking: 'ランキング',
+    review: '口コミ',
+  };
+  return labels[col] || col;
+}
+---
+<BaseLayout
+  title="害虫駆除えらび｜信頼できる害虫駆除業者が見つかる"
+  description="シロアリ・ゴキブリ・蜂の巣駆除の料金・実績・口コミを比較。信頼できる害虫駆除業者が見つかります。"
+>
+  <!-- Hero with Search -->
+  <div class="hero" style="margin: -1rem -1.25rem 2rem; padding: 3rem 1.25rem 2.5rem;">
+    <h1>あなたの地域の<br />害虫駆除業者が見つかる</h1>
+    <p style="margin-bottom: 1.5rem;">シロアリ・ゴキブリ・蜂の巣駆除<br />料金・実績・口コミで比較</p>
+    <div class="search-box">
+      <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="area-search" placeholder="地域名を入力（例：世田谷、川崎、さいたま...）" autocomplete="off" />
+    </div>
+  </div>
+
+  <!-- Area Search Section -->
+  <section id="area" style="margin-bottom: 3rem;">
+    <h2>地域から害虫駆除業者を探す</h2>
+
+    <div id="area-grid" class="area-grid">
+      {areaList.map((area) => (
+        <a href={area.href} class="area-chip" data-area={area.name}>{area.name}</a>
+      ))}
+    </div>
+    <p id="no-results" class="no-results" style="display:none;">
+      該当する地域の記事はまだありません。順次追加していきます。
+    </p>
+
+    <div style="text-align: center; margin-top: 1.5rem;">
+      <p style="font-size: 0.9rem; color: var(--color-text-light);">
+        あなたの地域がまだない場合は、お気軽にお問い合わせください。
+      </p>
+    </div>
+  </section>
+
+  <!-- Articles -->
+  <section id="articles" style="margin-bottom: 2rem;">
+    <h2>新着記事</h2>
+    <div class="article-grid">
+      {allArticles.map((article) => {
+        const slug = article.id.replace(/\.mdx?$/, '');
+        const thumbPath = `/images/articles/${slug}-thumb.png`;
+        return (
+          <a href={`/${article.collection}/${slug}/`} class="article-card">
+            <img src={thumbPath} alt={article.data.title} class="card-thumb" loading="lazy" />
+            <div class="card-body">
+              <span class="card-category">{categoryLabel(article.collection)}</span>
+              <div class="card-title">{article.data.title}</div>
+              <span class="card-date">{article.data.publishedAt} 更新</span>
+            </div>
+          </a>
+        );
+      })}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .search-box {
+    max-width: 500px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+    pointer-events: none;
+  }
+  #area-search {
+    width: 100%;
+    padding: 0.85rem 1rem 0.85rem 2.8rem;
+    border: none;
+    border-radius: 100px;
+    font-size: 1rem;
+    font-family: inherit;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    outline: none;
+    transition: box-shadow 0.2s;
+  }
+  #area-search:focus {
+    box-shadow: 0 4px 25px rgba(0,0,0,0.25);
+  }
+  #area-search::placeholder {
+    color: #9ca3af;
+  }
+  .area-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+  .area-chip {
+    display: inline-block;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    padding: 0.5rem 1.2rem;
+    border-radius: 100px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+    box-shadow: var(--shadow-sm);
+  }
+  .area-chip:hover {
+    background: var(--color-primary-light);
+    border-color: var(--color-primary);
+    color: var(--color-primary-dark);
+    text-decoration: none;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+  }
+  .area-chip.hidden {
+    display: none;
+  }
+  .no-results {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    padding: 1rem 0;
+  }
+</style>
+
+<script>
+  const input = document.getElementById('area-search') as HTMLInputElement;
+  const chips = document.querySelectorAll('.area-chip');
+  const noResults = document.getElementById('no-results');
+
+  input?.addEventListener('input', () => {
+    const query = input.value.trim().toLowerCase();
+    let visible = 0;
+    chips.forEach((chip) => {
+      const areaName = chip.getAttribute('data-area') || '';
+      if (!query || areaName.toLowerCase().includes(query)) {
+        chip.classList.remove('hidden');
+        visible++;
+      } else {
+        chip.classList.add('hidden');
+      }
+    });
+    if (noResults) {
+      noResults.style.display = (query && visible === 0) ? 'block' : 'none';
+    }
+  });
+</script>
