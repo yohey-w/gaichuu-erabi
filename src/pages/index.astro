@@ -154,8 +154,17 @@ function categoryLabel(col: string) {
 
 <script>
   const input = document.getElementById('area-search') as HTMLInputElement;
-  const chips = document.querySelectorAll('.area-chip');
+  const chips = Array.from(document.querySelectorAll<HTMLAnchorElement>('.area-chip'));
   const noResults = document.getElementById('no-results');
+
+  const getVisibleChips = () => chips.filter((chip) => !chip.classList.contains('hidden'));
+
+  const moveToArea = (chip: HTMLAnchorElement) => {
+    const href = chip.getAttribute('href');
+    if (href) {
+      window.location.href = href;
+    }
+  };
 
   input?.addEventListener('input', () => {
     const query = input.value.trim().toLowerCase();
@@ -172,5 +181,25 @@ function categoryLabel(col: string) {
     if (noResults) {
       noResults.style.display = (query && visible === 0) ? 'block' : 'none';
     }
+  });
+
+  input?.addEventListener('keydown', (event) => {
+    if (event.key !== 'Enter') return;
+    const visibleChips = getVisibleChips();
+    if (visibleChips.length === 0) return;
+
+    const activeElement = document.activeElement;
+    if (
+      activeElement instanceof HTMLAnchorElement &&
+      activeElement.classList.contains('area-chip') &&
+      !activeElement.classList.contains('hidden')
+    ) {
+      event.preventDefault();
+      moveToArea(activeElement);
+      return;
+    }
+
+    event.preventDefault();
+    moveToArea(visibleChips[0]);
   });
 </script>
