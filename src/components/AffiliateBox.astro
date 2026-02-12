@@ -1,0 +1,32 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  buttonText: string;
+  affiliateUrl: string;
+  note?: string;
+}
+
+const {
+  title,
+  description,
+  buttonText,
+  affiliateUrl,
+  note = '※PR: 本記事にはアフィリエイト広告が含まれます',
+} = Astro.props;
+---
+<div class="cta-box affiliate-box">
+  <span class="cta-badge">PR</span>
+  <h3>{title}</h3>
+  <p>{description}</p>
+  <a href={affiliateUrl} class="cta-button" rel="nofollow sponsored" target="_blank">{buttonText}</a>
+  <p class="affiliate-note">{note}</p>
+</div>
+
+<style>
+  .affiliate-box .affiliate-note {
+    margin-top: 0.8rem;
+    font-size: 0.78rem;
+    color: #5b6472;
+  }
+</style>
