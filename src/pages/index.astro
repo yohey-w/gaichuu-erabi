@@ -9,15 +9,67 @@ const allArticles = [...areaArticles, ...vsArticles, ...rankingArticles]
   .sort((a, b) => (b.data.publishedAt > a.data.publishedAt ? 1 : -1))
   .slice(0, 20);
 
-// Build area data from articles with slug
-const areaList = areaArticles
+// Build deduplicated area data from articles with slug
+const areaMap = new Map<string, string>();
+areaArticles
   .filter(a => a.data.area)
-  .map(a => ({
-    name: a.data.area!,
-    href: `/area/${a.id.replace(/\.mdx?$/, '')}/`,
-  }))
+  .forEach(a => {
+    const name = a.data.area!;
+    if (!areaMap.has(name)) {
+      areaMap.set(name, `/area/${a.id.replace(/\.mdx?$/, '')}/`);
+    }
+  });
+const areaList = Array.from(areaMap.entries())
+  .map(([name, href]) => ({ name, href }))
   .sort((a, b) => a.name.localeCompare(b.name, 'ja'));
 
+// Region grouping for area display
+const AREA_TO_REGION: Record<string, string> = {
+  // 東京23区
+  千代田区:'東京23区',中央区:'東京23区',港区:'東京23区',新宿区:'東京23区',文京区:'東京23区',
+  台東区:'東京23区',墨田区:'東京23区',江東区:'東京23区',品川区:'東京23区',目黒区:'東京23区',
+  大田区:'東京23区',世田谷区:'東京23区',渋谷区:'東京23区',中野区:'東京23区',杉並区:'東京23区',
+  豊島区:'東京23区',北区:'東京23区',荒川区:'東京23区',板橋区:'東京23区',練馬区:'東京23区',
+  足立区:'東京23区',葛飾区:'東京23区',江戸川区:'東京23区',
+  // 東京都（市部）
+  八王子市:'東京都（市部）',三鷹市:'東京都（市部）',武蔵野市:'東京都（市部）',府中市:'東京都（市部）',
+  調布市:'東京都（市部）',町田市:'東京都（市部）',小金井市:'東京都（市部）',日野市:'東京都（市部）',
+  国分寺市:'東京都（市部）',立川市:'東京都（市部）',
+  // 神奈川県
+  横浜市:'神奈川県',川崎市:'神奈川県',相模原市:'神奈川県',横須賀市:'神奈川県',藤沢市:'神奈川県',
+  厚木市:'神奈川県',大和市:'神奈川県',鎌倉市:'神奈川県',
+  // 埼玉県
+  さいたま市:'埼玉県',川口市:'埼玉県',川越市:'埼玉県',所沢市:'埼玉県',草加市:'埼玉県',
+  越谷市:'埼玉県',春日部市:'埼玉県',
+  // 千葉県
+  千葉市:'千葉県',船橋市:'千葉県',市川市:'千葉県',松戸市:'千葉県',柏市:'千葉県',浦安市:'千葉県',
+  // 東海
+  名古屋市:'東海',一宮市:'東海',岡崎市:'東海',豊田市:'東海',浜松市:'東海',静岡市:'東海',
+  // 関西
+  大阪市:'関西',堺市:'関西',吹田市:'関西',東大阪市:'関西',枚方市:'関西',高槻市:'関西',豊中市:'関西',
+  京都市:'関西',宇治市:'関西',神戸市:'関西',尼崎市:'関西',西宮市:'関西',芦屋市:'関西',姫路市:'関西',
+  // その他の地域
+  札幌市:'その他の地域',仙台市:'その他の地域',新潟市:'その他の地域',広島市:'その他の地域',
+  岡山市:'その他の地域',福岡市:'その他の地域',北九州市:'その他の地域',久留米市:'その他の地域',
+  熊本市:'その他の地域',那覇市:'その他の地域',鹿児島市:'その他の地域',
+};
+const REGION_ORDER = [
+  '東京23区','東京都（市部）','神奈川県','埼玉県','千葉県','東海','関西','その他の地域',
+];
+type AreaItem = { name: string; href: string };
+const regionGroups: { label: string; areas: AreaItem[] }[] = [];
+const grouped = new Map<string, AreaItem[]>();
+for (const area of areaList) {
+  const region = AREA_TO_REGION[area.name] ?? 'その他の地域';
+  if (!grouped.has(region)) grouped.set(region, []);
+  grouped.get(region)!.push(area);
+}
+for (const label of REGION_ORDER) {
+  const areas = grouped.get(label);
+  if (areas && areas.length > 0) {
+    regionGroups.push({ label, areas });
+  }
+}
 
 const totalPublished = areaArticles.length + vsArticles.length + rankingArticles.length;
 const latestPublished = allArticles[0]?.data.publishedAt ?? '';
@@ -56,9 +108,16 @@ function categoryLabel(col: string) {
   <section id="area" class="index-section">
     <h2>地域から害虫駆除業者を探す</h2>
 
-    <div id="area-grid" class="area-grid">
-      {areaList.map((area) => (
-        <a href={area.href} class="area-chip" data-area={area.name}>{area.name}</a>
+    <div id="area-grid">
+      {regionGroups.map((group) => (
+        <div class="region-group" data-region={group.label}>
+          <h3 class="region-label">{group.label}</h3>
+          <div class="area-grid">
+            {group.areas.map((area) => (
+              <a href={area.href} class="area-chip" data-area={area.name}>{area.name}</a>
+            ))}
+          </div>
+        </div>
       ))}
     </div>
     <p id="no-results" class="no-results" style="display:none;">
@@ -195,6 +254,24 @@ function categoryLabel(col: string) {
   #area-search::placeholder {
     color: #9ca3af;
   }
+  .region-group {
+    margin-bottom: 1.4rem;
+  }
+  .region-group:last-child {
+    margin-bottom: 0;
+  }
+  .region-label {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--color-text-light, #6b7280);
+    margin: 0 0 0.55rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid #e5e7eb;
+    letter-spacing: 0.02em;
+  }
+  .region-group.hidden {
+    display: none;
+  }
   .area-grid {
     display: flex;
     flex-wrap: wrap;
@@ -298,6 +375,7 @@ function categoryLabel(col: string) {
 <script>
   const input = document.getElementById('area-search') as HTMLInputElement;
   const chips = Array.from(document.querySelectorAll<HTMLAnchorElement>('.area-chip'));
+  const regionGroups = Array.from(document.querySelectorAll<HTMLDivElement>('.region-group'));
   const noResults = document.getElementById('no-results');
 
   const getVisibleChips = () => chips.filter((chip) => !chip.classList.contains('hidden'));
@@ -320,6 +398,11 @@ function categoryLabel(col: string) {
       } else {
         chip.classList.add('hidden');
       }
+    });
+    // Hide region groups with no visible chips
+    regionGroups.forEach((group) => {
+      const hasVisible = group.querySelector('.area-chip:not(.hidden)');
+      group.classList.toggle('hidden', query !== '' && !hasVisible);
     });
     if (noResults) {
       noResults.style.display = (query && visible === 0) ? 'block' : 'none';
