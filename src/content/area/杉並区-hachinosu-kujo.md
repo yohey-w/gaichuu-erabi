@@ -1,7 +1,7 @@
 ---
 title: "杉並区の害虫駆除業者おすすめ5選【2026年版】費用相場と選び方"
 description: "杉並区で害虫駆除を検討中の方向けに、費用相場・業者選びのポイントを解説します。"
-publishedAt: "2026-02-13"
+publishedAt: "2026-02-14"
 category: "area"
 area: "杉並区"
 keyword: "杉並区 蜂の巣 駆除"
