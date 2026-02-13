@@ -26,12 +26,7 @@ keywords: ["世田谷区 シロアリ駆除", "世田谷区 シロアリ 駆除 
 | 基礎木部補修 | 20,000〜220,000円 | 床板剥がし・金額明細の提示を依頼 |
 | 定期点検 | 8,000〜32,000円/年 | 点検回数・再発時対応を明文化 |
 
-<div class="cta-box">
-<span class="cta-badge">PR</span>
-<h3>害獣害虫レスキューハウス</h3>
-<p>年間3,000件の実績。世田谷区の住宅特性を踏まえて保証内容と再発対策のバランスを整理した見積もりが得られる窓口です。</p>
-<a href="https://gaichuu-erabi.com" class="cta-button" rel="nofollow sponsored" target="_blank">害獣害虫レスキューハウスに無料相談する →</a>
-</div>
+<!-- CTA:top -->
 
 
 ## 世田谷区で被害の出やすい住宅特性と実例
@@ -51,12 +46,7 @@ keywords: ["世田谷区 シロアリ駆除", "世田谷区 シロアリ 駆除 
 
 同じ価格帯で迷うときは、保証の細かさと再点検の頻度を比べて、最初の見積もりを基準に2社以上で絞り込みましょう。
 
-<div class="cta-box">
-<span class="cta-badge">PR</span>
-<h3>害獣害虫レスキューハウス</h3>
-<p>保証内容と換気スケジュールをセットで確認したい方向けに、世田谷区の施工事例と再発保証を整理した見積もりを提案します。</p>
-<a href="https://gaichuu-erabi.com" class="cta-button" rel="nofollow sponsored" target="_blank">見積もり比較を依頼する →</a>
-</div>
+<!-- CTA:middle -->
 
 
 ## 自分で駆除する場合と業者に依頼する場合の違い
@@ -73,12 +63,7 @@ keywords: ["世田谷区 シロアリ駆除", "世田谷区 シロアリ 駆除 
 
 早めに現地調査を依頼し、見積もりを集めて比較することで、追加費用を出す前に条件整理ができ、施工後の手戻りを防ぐことができます。
 
-<div class="cta-box">
-<span class="cta-badge">PR</span>
-<h3>害獣害虫レスキューハウス</h3>
-<p>現地調査と再発保証の内容をあらかじめ整えて比較したいなら、世田谷区の具体的な事例をもとにまとめた見積もり依頼がおすすめです。</p>
-<a href="https://gaichuu-erabi.com" class="cta-button" rel="nofollow sponsored" target="_blank">まずは無料調査を依頼する →</a>
-</div>
+<!-- CTA:bottom -->
 
 
 ## よくある質問

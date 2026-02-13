@@ -26,12 +26,7 @@ keywords: ["杉並区 害虫駆除 費用", "杉並区 害虫駆除 おすすめ
 
 杉並区は住宅密集地のため、隣家への配慮が必要です。駆除作業時の騒音や薬剤の影響について、業者に事前確認しましょう。
 
-<div class="cta-box">
-<span class="cta-badge">PR</span>
-<h3>害虫駆除110番</h3>
-<p>24時間365日対応。最短30分で到着。見積もり無料。杉並区全域対応。</p>
-<a href="https://gaichuu-erabi.com/" class="cta-button" rel="nofollow sponsored" target="_blank">害虫駆除110番に無料相談する →</a>
-</div>
+<!-- CTA:top -->
 
 ## 害虫駆除業者の選び方3つのポイント
 
@@ -47,12 +42,7 @@ keywords: ["杉並区 害虫駆除 費用", "杉並区 害虫駆除 おすすめ
 
 定期点検サービスがあるか、追加料金はかかるかを確認しましょう。特にネズミやゴキブリは再発しやすいため、継続的なフォロー体制がある業者を選ぶと安心です。
 
-<div class="cta-box">
-<span class="cta-badge">PR</span>
-<h3>ムシプロテック</h3>
-<p>害虫駆除専門業者。最短即日対応。保証付き。杉並区対応。</p>
-<a href="https://gaichuu-erabi.com/" class="cta-button" rel="nofollow sponsored" target="_blank">ムシプロテックに相談する →</a>
-</div>
+<!-- CTA:middle -->
 
 ## 「自分で駆除」と「業者に依頼」の違い
 
@@ -86,12 +76,7 @@ keywords: ["杉並区 害虫駆除 費用", "杉並区 害虫駆除 おすすめ
 
 業者は人体に安全な薬剤を使用しますが、駆除作業中は別室に移動することを推奨します。事前に相談しましょう。
 
-<div class="cta-box">
-<span class="cta-badge">PR</span>
-<h3>害虫駆除110番</h3>
-<p>24時間365日対応。最短30分で到着。見積もり無料。杉並区全域対応。</p>
-<a href="https://gaichuu-erabi.com/" class="cta-button" rel="nofollow sponsored" target="_blank">害虫駆除110番に無料相談する →</a>
-</div>
+<!-- CTA:bottom -->
 
 ## まとめ
 

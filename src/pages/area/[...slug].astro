@@ -1,7 +1,5 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import AffiliateBox from '../../components/AffiliateBox.astro';
-import { affiliatePlacements } from '../../data/affiliateConfig';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -37,11 +35,6 @@ const ogImage = `/images/articles/${slug}-ogp.png`;
       </time>
     </div>
     <h1>{entry.data.title}</h1>
-    <AffiliateBox {...affiliatePlacements.top} />
     <Content />
-    <template id="affiliate-middle-template">
-      <AffiliateBox {...affiliatePlacements.middle} />
-    </template>
-    <AffiliateBox {...affiliatePlacements.bottom} />
   </article>
 </BaseLayout>

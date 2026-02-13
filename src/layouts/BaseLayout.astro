@@ -41,8 +41,8 @@ const ogImageURL = ogImage ? new URL(ogImage, Astro.site).href : new URL('/ogp.p
     @import '../styles/global.css';
 
     :root {
-      --color-primary-rgb: 230, 81, 0;
-      --color-primary-soft: #fff3e0;
+      --color-primary-rgb: 22, 163, 74;
+      --color-primary-soft: #e8f7ed;
       --color-accent-soft: #fff4ea;
     }
 
@@ -273,6 +273,11 @@ const ogImageURL = ogImage ? new URL(ogImage, Astro.site).href : new URL('/ogp.p
     }
 
     @media (max-width: 768px) {
+      .header-inner {
+        height: auto;
+        min-height: 60px;
+      }
+
       .site-main {
         padding-top: 0.75rem;
         padding-bottom: 1.5rem;
