@@ -37,6 +37,14 @@ const ogImageURL = ogImage ? new URL(ogImage, Astro.site).href : new URL('/ogp.p
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;800&display=swap" rel="stylesheet" />
+  <!-- GA4 -->
+  <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXX"></script>
+  <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXX');
+  </script>
   <style is:global>
     @import '../styles/global.css';
 
@@ -394,6 +402,18 @@ const ogImageURL = ogImage ? new URL(ogImage, Astro.site).href : new URL('/ogp.p
         }
       }
     }
+  </script>
+  <script is:inline>
+    document.addEventListener('click', function(e) {
+      var link = e.target.closest('a.cta-button');
+      if (!link) return;
+      var ctaBox = link.closest('.cta-box');
+      gtag('event', 'affiliate_click', {
+        affiliate_url: link.href,
+        cta_title: ctaBox ? ctaBox.querySelector('h3')?.textContent : '',
+        page_path: location.pathname
+      });
+    });
   </script>
 </body>
 </html>
