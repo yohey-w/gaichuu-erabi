@@ -1,14 +1,15 @@
 /**
  * rehype-affiliate-cta.mjs
  *
- * Rehype plugin that replaces <!-- CTA:top/middle/bottom --> comment markers
- * in markdown articles with full CTA HTML from affiliateConfig placements.
+ * Rehype plugin that:
+ * 1. Replaces <!-- CTA:top/middle/bottom --> comment markers with CTA HTML
+ * 2. Auto-injects regional affiliate ads based on frontmatter `area` field
  *
  * Usage in astro.config.mjs:
  *   import { rehypeAffiliateCta } from './src/plugins/rehype-affiliate-cta.mjs';
- *   import { affiliatePlacements } from './src/data/affiliatePlacements.mjs';
+ *   import { affiliatePlacements, regionalPlacements } from './src/data/affiliatePlacements.mjs';
  *   markdown: {
- *     rehypePlugins: [[rehypeAffiliateCta, { placements: affiliatePlacements }]],
+ *     rehypePlugins: [[rehypeAffiliateCta, { placements: affiliatePlacements, regionalPlacements }]],
  *   }
  */
 
@@ -31,13 +32,30 @@ ${linkHtml}
 </div>`;
 }
 
+function generateRegionalCtaHtml(placement) {
+  if (!placement) return '';
+  return `<!-- af:${placement.id} -->\n${generateCtaHtml(placement)}`;
+}
+
 export function rehypeAffiliateCta(options = {}) {
-  const { placements = {} } = options;
+  const { placements = {}, regionalPlacements = [] } = options;
 
   const COMMENT_RE = /^CTA:(top|middle|bottom)$/;
   const RAW_COMMENT_RE = /^<!--\s*CTA:(top|middle|bottom)\s*-->$/;
 
-  return (tree) => {
+  return (tree, file) => {
+    // Get frontmatter area for regional matching
+    const area = file?.data?.astro?.frontmatter?.area || '';
+
+    // Find matching regional placements for this article's area
+    const matchedRegional = regionalPlacements.filter(
+      (rp) => rp.areas.includes(area)
+    );
+
+    // Track the last CTA:bottom node position for after_bottom insertion
+    let lastBottomParent = null;
+    let lastBottomIndex = null;
+
     visit(tree, (node, index, parent) => {
       if (!parent || index === null) return;
 
@@ -61,6 +79,28 @@ export function rehypeAffiliateCta(options = {}) {
         type: 'raw',
         value: html,
       };
+
+      // Remember position of CTA:bottom for regional ad insertion
+      if (position === 'bottom') {
+        lastBottomParent = parent;
+        lastBottomIndex = index;
+      }
     });
+
+    // Insert regional ads after CTA:bottom (or at end of tree)
+    if (matchedRegional.length > 0) {
+      const regionalNodes = matchedRegional.map((rp) => ({
+        type: 'raw',
+        value: generateRegionalCtaHtml(rp),
+      }));
+
+      if (lastBottomParent && lastBottomIndex !== null) {
+        // Insert after CTA:bottom
+        lastBottomParent.children.splice(lastBottomIndex + 1, 0, ...regionalNodes);
+      } else {
+        // Fallback: append to end of tree
+        tree.children.push(...regionalNodes);
+      }
+    }
   };
 }

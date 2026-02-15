@@ -16,6 +16,13 @@ export const affiliatePrograms = {
     status: 'active',
     affiliateUrl: 'https://px.a8.net/svt/ejp?a8mat=4AXA8I+402XY2+36X8+HV7V6',
   },
+  yamatoShiroari: {
+    name: 'ヤマト産業シロアリ無料床下診断',
+    network: 'moshimo',
+    rewardYen: 0,
+    status: 'url_pending',
+    affiliateUrl: '',  // TODO: もしもアフィリエイト管理画面から広告リンクを取得して貼る
+  },
 };
 
 export const affiliatePlacements = {
@@ -44,3 +51,28 @@ export const affiliatePlacements = {
     note: PR_NOTE,
   },
 };
+
+/**
+ * 地域限定広告（Regional Placements）
+ *
+ * frontmatter の area フィールドで地域を判定し、該当記事に自動挿入。
+ * 新しい地域限定アフィリエイトはここに追加するだけ。
+ */
+export const regionalPlacements = [
+  {
+    id: 'yamato_shiroari_kansai',
+    areas: [
+      '京都市', '宇治市',
+      '大阪市', '堺市', '東大阪市', '枚方市', '豊中市', '吹田市', '高槻市',
+      '茨木市', '八尾市', '寝屋川市', '岸和田市',
+      '奈良市', '生駒市', '橿原市',
+    ],
+    title: '【関西限定】シロアリ無料床下診断',
+    description:
+      '京都・大阪・奈良エリア限定で、ヤマト産業によるシロアリ無料床下診断を実施中。築10年以上の住宅は一度チェックしておくと安心です。',
+    buttonText: '無料床下診断を申し込む →',
+    affiliateUrl: affiliatePrograms.yamatoShiroari.affiliateUrl,
+    note: '※PR: ヤマト産業提供の無料診断です',
+    position: 'after_bottom',  // CTA:bottom の直後に挿入
+  },
+];
