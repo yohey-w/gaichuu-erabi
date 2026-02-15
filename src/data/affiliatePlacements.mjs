@@ -20,8 +20,8 @@ export const affiliatePrograms = {
     name: 'ヤマト産業シロアリ無料床下診断',
     network: 'moshimo',
     rewardYen: 0,
-    status: 'url_pending',
-    affiliateUrl: '',  // TODO: もしもアフィリエイト管理画面から広告リンクを取得して貼る
+    status: 'active',
+    affiliateUrl: 'https://af.moshimo.com/af/c/click?a_id=5379439&p_id=6840&pc_id=19579&pl_id=87049',
   },
 };
 
