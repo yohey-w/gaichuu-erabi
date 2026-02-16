@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://gaichuu-erabi.com/sitemap-index.xml
