@@ -23,6 +23,12 @@ export const affiliatePrograms = {
     status: 'active',
     affiliateUrl: 'https://af.moshimo.com/af/c/click?a_id=5379439&p_id=6840&pc_id=19579&pl_id=87049',
   },
+  zehitomo: {
+    name: 'ゼヒトモ',
+    network: 'A8',
+    status: 'active',
+    affiliateUrl: 'https://px.a8.net/svt/ejp?a8mat=4AXA8I+53DP9U+5LK4+5YJRM',
+  },
 };
 
 export const affiliatePlacements = {
@@ -35,11 +41,11 @@ export const affiliatePlacements = {
     note: PR_NOTE,
   },
   middle: {
-    title: '再発防止まで見据えて業者を比較したい方へ',
+    title: '害虫駆除・リフォームの見積もりを比較',
     description:
-      '見積もり時に施工範囲と再発防止の内容を確認すると、後の追加費用を抑えやすくなります。比較前に条件を整理しましょう。',
-    buttonText: '害虫駆除屋の対応条件を見る →',
-    affiliateUrl: affiliatePrograms.gaichuuKujoya.affiliateUrl,
+      'ゼヒトモは国内最大級の見積もりサイト。害虫駆除からリフォームまで、複数業者の条件をまとめて比較できます。',
+    buttonText: 'ゼヒトモで無料見積もりを比較する →',
+    affiliateUrl: affiliatePrograms.zehitomo.affiliateUrl,
     note: PR_NOTE,
   },
   bottom: {
