@@ -7,7 +7,7 @@ import { affiliatePlacements, regionalPlacements } from './src/data/affiliatePla
 
 export default defineConfig({
   site: 'https://gaichuu-erabi.com',
-  integrations: [sitemap()],
+  integrations: [sitemap({ lastmod: new Date() })],
   output: 'static',
   build: {
     format: 'directory',
