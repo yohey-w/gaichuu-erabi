@@ -33,19 +33,19 @@ export const affiliatePrograms = {
 
 export const affiliatePlacements = {
   top: {
-    title: '害虫トラブルの無料相談で対応可否を確認',
-    description:
-      '害虫駆除屋は害虫駆除に関することなら何でも相談可能。まずは被害状況を伝えて、対応条件と費用目安を確認しましょう。',
-    buttonText: '害虫駆除屋に無料相談する →',
-    affiliateUrl: affiliatePrograms.gaichuuKujoya.affiliateUrl,
-    note: PR_NOTE,
-  },
-  middle: {
     title: '害虫駆除・リフォームの見積もりを比較',
     description:
       'ゼヒトモは国内最大級の見積もりサイト。害虫駆除からリフォームまで、複数業者の条件をまとめて比較できます。',
     buttonText: 'ゼヒトモで無料見積もりを比較する →',
     affiliateUrl: affiliatePrograms.zehitomo.affiliateUrl,
+    note: PR_NOTE,
+  },
+  middle: {
+    title: '害虫トラブルの無料相談で対応可否を確認',
+    description:
+      '害虫駆除屋は害虫駆除に関することなら何でも相談可能。まずは被害状況を伝えて、対応条件と費用目安を確認しましょう。',
+    buttonText: '害虫駆除屋に無料相談する →',
+    affiliateUrl: affiliatePrograms.gaichuuKujoya.affiliateUrl,
     note: PR_NOTE,
   },
   bottom: {
