@@ -1,16 +1,46 @@
 ---
+import type { JsonLdBreadcrumbItem, JsonLdEntry } from '../utils/jsonld';
+import {
+  buildArticleSchema,
+  buildBreadcrumbSchema,
+  buildFAQSchema,
+  buildLocalBusinessSchema,
+  combineSchemas,
+  extractFaqItemsFromMarkdown,
+} from '../utils/jsonld';
+
 interface Props {
   title: string;
   description: string;
   noindex?: boolean;
-  breadcrumbs?: { label: string; href?: string }[];
+  breadcrumbs?: JsonLdBreadcrumbItem[];
   category?: string;
   publishedAt?: string;
   ogImage?: string;
+  entry?: JsonLdEntry;
 }
-const { title, description, noindex = false, breadcrumbs, category, publishedAt, ogImage } = Astro.props;
+const { title, description, noindex = false, breadcrumbs, category, publishedAt, ogImage, entry } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImageURL = ogImage ? new URL(ogImage, Astro.site).href : new URL('/ogp.png', Astro.site).href;
+const siteConfig = {
+  siteUrl: Astro.site ? Astro.site.toString() : canonicalURL.origin,
+  siteName: '害虫駆除えらび',
+  publisherName: '害虫駆除えらび編集部',
+  publisherLogoUrl: new URL('/icon-512.png', Astro.site ?? canonicalURL).href,
+  defaultAuthorName: '害虫駆除えらび編集部',
+  authorPagePath: '/',
+  locale: 'ja-JP',
+  defaultServiceType: '害虫駆除',
+};
+const faqItems = extractFaqItemsFromMarkdown(entry?.body);
+const jsonLdSchema = entry
+  ? combineSchemas([
+      buildArticleSchema(entry, canonicalURL.href, siteConfig, ogImageURL),
+      buildFAQSchema(faqItems),
+      buildBreadcrumbSchema(breadcrumbs, canonicalURL.href, siteConfig, entry.data.title),
+      buildLocalBusinessSchema(entry, canonicalURL.href, siteConfig, ogImageURL),
+    ])
+  : null;
 ---
 <!DOCTYPE html>
 <html lang="ja">
@@ -37,6 +67,9 @@ const ogImageURL = ogImage ? new URL(ogImage, Astro.site).href : new URL('/ogp.p
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;800&display=swap" rel="stylesheet" />
+  {jsonLdSchema && (
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLdSchema)} />
+  )}
   <!-- GA4 -->
   <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-WTB9KTXGDR"></script>
   <script is:inline>
